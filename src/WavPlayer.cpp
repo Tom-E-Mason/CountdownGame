@@ -257,12 +257,12 @@ short WavPlayer::SampleCoder(short _nSampleValue)
 		return _nSampleValue;
 	else
 	{
-		_nSampleValue = -pow(2, bsSampleBits.size() - 1);
-		for (int i = 0; i < bsSampleBits.size(); i++)
+		_nSampleValue = (short)-pow(2, bsSampleBits.size() - 1);
+		for (size_t i = 0; i < bsSampleBits.size(); i++)
 		{
 			short nBitValue = 0;
 			if (bsSampleBits.test(i))
-				nBitValue = pow(2, i - 1);
+				nBitValue = (short)pow(2, (int)i - 1);
 			_nSampleValue += nBitValue;
 		}
 	}

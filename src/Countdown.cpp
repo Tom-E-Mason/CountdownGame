@@ -398,9 +398,9 @@ olc::vf2d Countdown::StringPixelDimensions(const ScreenText& _text) const
 {
 	// each character is 7 * _size pixels wide and high and the space between
 	// is just _size
-	float fPixelWidth = TEXT_ONLY_PIXEL_MULT * _text.size * _text.string.length() +
+	float fPixelWidth = (float)TEXT_ONLY_PIXEL_MULT * _text.size * _text.string.length() +
 		                _text.size * (_text.string.length() - 1);
-	float fPixelHeight = TEXT_ONLY_PIXEL_MULT * _text.size;
+	float fPixelHeight = (float)TEXT_ONLY_PIXEL_MULT * _text.size;
 
 	return { fPixelWidth, fPixelHeight };
 }
@@ -413,7 +413,7 @@ olc::vf2d Countdown::AppendString(const ScreenText& _first,
 	if (_first.size == _second.size)
 		return { _first.pos.x + vf2dStringDimensions.x, _first.pos.y };
 
-	float fDiff = (_first.size - _second.size) / 2;
+	float fDiff = (float)(_first.size - _second.size) / 2;
 	float fNewY = _first.pos.y + fDiff * TEXT_ONLY_PIXEL_MULT;
 
 	return { _first.pos.x + vf2dStringDimensions.x, fNewY };

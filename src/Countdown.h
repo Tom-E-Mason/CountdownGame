@@ -43,7 +43,7 @@
 // -----------------------------------------------------------------------------
 
 class Tile;
-class ScreenText;
+struct ScreenText;
 
 // -----------------------------------------------------------------------------
 // Countdown class derived from PixelGameEngine.
