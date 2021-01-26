@@ -351,3 +351,4 @@ MigrationBackup/
 *.tlog
 *.recipe
 *.idb
+/bin-int/Debug-Win32/Countdown.vcxproj.FileListAbsolute.txt
