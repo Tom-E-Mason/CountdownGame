@@ -86,7 +86,9 @@
   <ItemGroup>
     <ClInclude Include="src\Countdown.h" />
     <ClInclude Include="src\CountdownCalculator.h" />
+    <ClInclude Include="src\KeyboardInput.h" />
     <ClInclude Include="src\olcPixelGameEngine.h" />
+    <ClInclude Include="src\ScreenText.h" />
     <ClInclude Include="src\Tile.h" />
     <ClInclude Include="src\Timer.h" />
     <ClInclude Include="src\WavHeader.h" />
@@ -95,6 +97,7 @@
   <ItemGroup>
     <ClCompile Include="src\Countdown.cpp" />
     <ClCompile Include="src\CountdownCalculator.cpp" />
+    <ClCompile Include="src\KeyboardInput.cpp" />
     <ClCompile Include="src\Tile.cpp" />
     <ClCompile Include="src\WavPlayer.cpp" />
   </ItemGroup>

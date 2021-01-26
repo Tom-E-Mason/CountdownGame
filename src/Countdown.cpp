@@ -338,8 +338,90 @@ void Countdown::CountdownClock()
 	DrawLine(m_vf2dClockCentre, m_vf2dClockHand, olc::BLUE);
 }
 
+void Countdown::StartScreen()
+{
+	olc::Key key = KeyboardInput::ReceiveInput(m_txtUserInput.string, this);
+	if (key == olc::Key::ENTER)
+		m_listPlayers.insert(m_listPlayers.begin(),
+			                 std::move(m_txtUserInput.string));
+
+	DrawString(m_txtTitle.pos,
+		       m_txtTitle.string,
+		       m_txtTitle.col,
+		       m_txtTitle.size);
+	DrawString(m_txtEnterName.pos,
+		       m_txtEnterName.string,
+		       m_txtEnterName.col,
+		       m_txtEnterName.size);
+	DrawString(m_txtUserInput.pos,
+		       m_txtUserInput.string,
+		       m_txtUserInput.col,
+		       m_txtUserInput.size);
+	DrawString(m_txtStart.pos,
+		       m_txtStart.string,
+		       m_txtStart.col,
+		       m_txtStart.size);
+
+	olc::vf2d vf2dPlayerList = m_txtUserInput.pos;
+	for (const auto& p : m_listPlayers)
+	{
+		vf2dPlayerList.y += (TEXT_PLUS_SPACE_MULT + 1) * m_txtUserInput.size;
+		DrawString(vf2dPlayerList, p, olc::WHITE, m_txtUserInput.size);
+	}
+
+	if (GetMouse(0).bReleased)
+	{
+		olc::vf2d mouse = { (float)GetMouseX(), (float)GetMouseY() };
+		olc::vf2d bottomRight = m_txtStart.pos +
+			                    StringPixelDimensions(m_txtStart);
+
+		if (mouse.x > m_txtStart.pos.x
+			&& mouse.y > m_txtStart.pos.y
+			&& mouse.x < bottomRight.x
+			&& mouse.y < bottomRight.y)
+		{
+			m_bStartScreen = false;
+			m_bMainGame = true;
+		}
+
+	}
+}
+
+olc::vf2d Countdown::CentreAdjustString(const ScreenText& _text,
+	                                    olc::vf2d _middle) const
+{
+	olc::vf2d vf2dStringDimensions = StringPixelDimensions(_text);
+	return _middle - vf2dStringDimensions / 2;
+}
+
+olc::vf2d Countdown::StringPixelDimensions(const ScreenText& _text) const
+{
+	// each character is 7 * _size pixels wide and high and the space between
+	// is just _size
+	float fPixelWidth = TEXT_ONLY_PIXEL_MULT * _text.size * _text.string.length() +
+		                _text.size * (_text.string.length() - 1);
+	float fPixelHeight = TEXT_ONLY_PIXEL_MULT * _text.size;
+
+	return { fPixelWidth, fPixelHeight };
+}
+
+olc::vf2d Countdown::AppendString(const ScreenText& _first,
+	                              const ScreenText& _second)
+{
+	olc::vf2d vf2dStringDimensions = StringPixelDimensions(_first);
+
+	if (_first.size == _second.size)
+		return { _first.pos.x + vf2dStringDimensions.x, _first.pos.y };
+
+	float fDiff = (_first.size - _second.size) / 2;
+	float fNewY = _first.pos.y + fDiff * TEXT_ONLY_PIXEL_MULT;
+
+	return { _first.pos.x + vf2dStringDimensions.x, fNewY };
+}
+
 // -----------------------------------------------------------------------------
-// Called when program is run.
+// Called when program is run. Allows initialisation of variables dependent on
+// screen dimensions.
 //
 // Returns:
 //     true
@@ -347,6 +429,25 @@ void Countdown::CountdownClock()
 bool Countdown::OnUserCreate()
 {
 	fTilesY = (float)(2.0f * ScreenHeight() / 3.0f);
+
+	m_txtTitle.string = "COUNTDOWN";
+	m_txtTitle.size = 16,
+		m_txtTitle.pos = CentreAdjustString(m_txtTitle,
+			{ (float)ScreenWidth() / 2,
+			  (float)ScreenHeight() / 6 });
+
+	m_txtEnterName.string = "Enter Name: ";
+	m_txtEnterName.size = 4,
+		m_txtEnterName.pos = { m_txtTitle.pos.x, 200 };
+
+	m_txtUserInput.size = 4,
+		m_txtUserInput.pos = AppendString(m_txtEnterName, m_txtUserInput);
+
+	m_txtStart.string = "START";
+	m_txtStart.size = 10;
+	m_txtStart.pos = CentreAdjustString(m_txtStart,
+		{ (float)ScreenWidth() / 2,
+		   5 * (float)ScreenHeight() / 6 });
 
 	return true;
 }
@@ -365,15 +466,16 @@ bool Countdown::OnUserUpdate(float fElapsedTime)
 	m_tpTimeNow = std::chrono::system_clock::now();
 	m_durElapsedTime = m_tpTimeNow - m_tpLastFrame;
 
-	Reset();
-
-	LettersGame();
-	
-	NumbersGame();
-	
-	AnagramGame();
-	
-	CountdownClock();
+	if (m_bMainGame)
+	{
+		Reset();
+		LettersGame();
+		NumbersGame();
+		AnagramGame();
+		CountdownClock();
+	}
+	else if (m_bStartScreen)
+		StartScreen();
 
 	m_tpLastFrame = m_tpTimeNow;
 	return true;
