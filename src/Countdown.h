@@ -27,20 +27,19 @@
 // -----------------------------------------------------------------------------
 // Version History
 // -----------------------------------------------------------------------------
+// R1_0_1
+//    Additions:
+//        - Three rounds - letters, number and anagram.
+//        - Countdown clock starts once all the tiles are selected.
+//        - Music plays when clock starts.
 //
-// 1.7
-//     - Additions:
-//         - Music via WavPlayer class.
-//	       - Improved countdown calculator (CountdownCalculator 1.2b).
-// 1.8
-//     - Additions:
-//         - Faster countdown calculator (CountdownCalculator 1.3).
-//         - Tile picking method makes more sense (not much faster though).
-//         - Tiles no longer pointers (never needed to be).
-//         - Reset() is now targeted by round type.
 //
-//     - Issues:
-//         - If Reset() and restarted too quickly, music and clock don't work...
+// R2_0_1
+//     Additions:
+//        - Start page to add players to a vector of players.
+//        - User input to type in player names.
+//        - ScreenText class to group a string with its size and position on
+//          the screen.
 // -----------------------------------------------------------------------------
 
 class Tile;
