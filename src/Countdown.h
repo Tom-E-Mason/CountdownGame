@@ -6,6 +6,8 @@
 #include "Tile.h"
 #include "WavPlayer.h"
 #include "Timer.h"
+#include "KeyboardInput.h"
+#include "ScreenText.h"
 
 #include <random>
 
@@ -42,6 +44,7 @@
 // -----------------------------------------------------------------------------
 
 class Tile;
+class ScreenText;
 
 // -----------------------------------------------------------------------------
 // Countdown class derived from PixelGameEngine.
@@ -61,7 +64,7 @@ private:
 	bool m_bStartScreen;
 	int m_nLettersRoundCount;
 	int m_nNumbersRoundCount;
-	std::list<std::string> m_listPlayers;
+	std::vector<std::string> m_listPlayers;
 
 
 	// randomising features
@@ -116,16 +119,30 @@ private:
 	// music
 	WavPlayer* m_music;
 
+	// start screen
+	ScreenText m_txtTitle;
+	ScreenText m_txtEnterName;
+	ScreenText m_txtUserInput;
+	ScreenText m_txtStart;
+
 private:
 	olc::vf2d CalcFirstCardCoordinates(int _numCards);
 	void GenerateNewTile(std::string& _strTileSet);
 
+	// main game
 	void Reset();
 	void LettersGame();
 	void NumbersGame();
 	void AnagramGame();
 	void StartCountdown();
 	void CountdownClock();
+
+	void StartScreen();
+	olc::vf2d StringPixelDimensions(const ScreenText& _text) const;
+	olc::vf2d CentreAdjustString(const ScreenText& _text,
+		                         olc::vf2d _middle) const;
+	olc::vf2d AppendString(const ScreenText& _first,
+		                   const ScreenText& _second);
 };
 
 
