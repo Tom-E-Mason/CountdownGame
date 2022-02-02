@@ -1,6 +1,6 @@
 # Countdown
 
-#### Credit where credit's due: 
+#### Acknowledgements: 
 This is a basic Countdown game using [olcPixelGameEngine](https://github.com/OneLoneCoder/olcPixelGameEngine) as a framework. 
 The music is implemented using an adapted version of [olcNoiseMaker](https://github.com/OneLoneCoder/synth/blob/master/olcNoiseMaker.h).
 These were both made by Javidx9 AKA OneLoneCoder. Worth checking out his YouTube channel for some interesting videos. The rest of the game is designed by me, although for the calculation of the numbers round I took heavy inspiration from this [article](https://datagenetics.com/blog/august32014/index.html) by [DataGenetics.com](https://datagenetics.com/index.html).
